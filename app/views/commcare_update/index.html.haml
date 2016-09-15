@@ -7,9 +7,21 @@
 
 .row
   .col-md-12
-    .a.btn.btn-default.pull-right{href: "#"}
-      = fa_icon "plus"
-      Nouvelle mise à jour
+    %p.text-right
+      %a.btn.btn-primary{href: "#", role: "button"}
+        = fa_icon "plus"
+        Nouvelle mise à jour
 
-.row
-  .col-md-12
+    %table.table
+      %thead
+        %tr
+          %th Date
+          %th Etape
+          %th Action
+      - @updates.each do |u|
+        %tr{class: u.completed? ? "" : "danger"}
+          %td= u.cc_update_on.strftime("%Y-%m-%d")
+          %td= "#{u.progress} / #{CommcareUpdate::MAX_STEPS}"
+          %td actions
+
+    %div.text-center= will_paginate @updates, renderer: BootstrapPagination::Rails, next_label: "Suiv. »", previous_label: "« Préc."
