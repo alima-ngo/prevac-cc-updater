@@ -18,7 +18,7 @@
           %th Date
           %th Etape
           %th Action
-      - @updates.each do |u|
+      - @commcare_updates.each do |u|
         %tr{class: u.completed? ? "" : "danger"}
           %td= u.cc_update_on.strftime("%Y-%m-%d")
           %td= "#{u.progress} / #{CommcareUpdate::MAX_STEPS}"
