@@ -1,0 +1,2 @@
+class CommcareUpdate < ApplicationRecord
+end
