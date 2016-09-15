@@ -1,5 +1,5 @@
 class CommcareUpdatesController < ApplicationController
-  before_action :set_commcare_update, only: [:show, :edit, :update, :destroy]
+  before_action :set_commcare_update, except: [:index, :new, :create]
 
   def index
     @commcare_updates = CommcareUpdate.order(cc_update_on: 'desc').paginate(:page => params[:page], per_page: 7)

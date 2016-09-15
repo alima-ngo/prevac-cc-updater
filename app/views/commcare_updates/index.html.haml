@@ -19,9 +19,9 @@
           %th Etape
           %th Action
       - @commcare_updates.each do |u|
-        %tr{class: u.completed? ? "" : "danger"}
-          %td= u.cc_update_on.strftime("%Y-%m-%d")
+        %tr{class: u.status_class}
+          %td= date_label u
           %td= "#{u.progress} / #{CommcareUpdate::MAX_STEPS}"
-          %td actions
+          %td= action_link(u)
 
     %div.text-center= will_paginate @updates, renderer: BootstrapPagination::Rails, next_label: "Suiv. »", previous_label: "« Préc."
