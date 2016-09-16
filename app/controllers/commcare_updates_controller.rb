@@ -1,5 +1,6 @@
 class CommcareUpdatesController < ApplicationController
   before_action :set_commcare_update, except: [:index, :new, :create]
+  before_action :check_on_going_update, only: [:new, :create]
 
   def index
     @commcare_updates = CommcareUpdate.order(cc_update_on: 'desc').paginate(:page => params[:page], per_page: 7)
@@ -20,7 +21,7 @@ class CommcareUpdatesController < ApplicationController
 
     respond_to do |format|
       if @commcare_update.save
-        format.html { redirect_to @commcare_update, notice: 'CommcareUpdate was successfully created.' }
+        format.html { redirect_to step1_commcare_update_path(@commcare_update), notice: 'CommcareUpdate was successfully created.' }
         format.json { render :show, status: :created, location: @commcare_update }
       else
         format.html { render :new }
@@ -67,6 +68,12 @@ class CommcareUpdatesController < ApplicationController
   end
 
   private
+    def check_on_going_update
+      if CommcareUpdate.on_going_update?
+        redirect_to root_path, alert: 'Il y a déjà une mise à jour en cours aujourd\'hui'
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_commcare_update
       @commcare_update = CommcareUpdate.find(params[:id])
@@ -74,7 +81,7 @@ class CommcareUpdatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def commcare_update_params
-      params.require(:commcare_update).permit(:name)
+      params.require(:commcare_update).permit(:progress, :cc_update_on, :active)
     end
 
 end

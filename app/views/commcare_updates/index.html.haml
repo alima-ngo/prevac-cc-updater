@@ -2,13 +2,13 @@
   .col-md-12
     %ol.breadcrumb
       %li.active
-        = fa_icon "chevron-right"
+        = fa_icon "home"
         Liste des mises à jour
 
 .row
   .col-md-12
     %p.text-right
-      %a.btn.btn-primary{href: "#", role: "button"}
+      %a.btn.btn-primary{href: new_commcare_update_path, role: "button"}
         = fa_icon "plus"
         Nouvelle mise à jour
 
@@ -21,7 +21,7 @@
       - @commcare_updates.each do |u|
         %tr{class: u.status_class}
           %td= date_label u
-          %td= "#{u.progress} / #{CommcareUpdate::MAX_STEPS}"
+          %td= progress_label u
           %td= action_link(u)
 
     %div.text-center= will_paginate @updates, renderer: BootstrapPagination::Rails, next_label: "Suiv. »", previous_label: "« Préc."

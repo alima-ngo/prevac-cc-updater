@@ -14,3 +14,6 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+
+.breadcrumb li {font-size: 1.2em;}
+.breadcrumb>li+li:before {color: rgba(204, 204, 204, 1); content: "\276F\00a0";}

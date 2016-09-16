@@ -1,0 +1,42 @@
+.row
+  .col-md-12
+    %ol.breadcrumb
+      %li
+        = fa_icon "home"
+        = link_to "Liste des mises à jour", root_path
+      %li.active
+        Nouvelle mise à jour pour le
+        = Date.today
+
+.row
+  .col-md-12
+    .panel.panel-primary
+      .panel-heading
+        Résumé des étapes de mise à jour
+      %table.table
+        %tr
+          %td
+            %strong Etape 1
+          %td Données Morpho
+        %tr
+          %td
+            %strong Etape 2
+          %td Ajout des nouveaux participants
+        %tr
+          %td
+            %strong Etape 3
+          %td Ajout des nouveaux rappels
+        %tr
+          %td
+            %strong Etape 4
+          %td Mise à jour des statuts de visite
+        %tr
+          %td
+            %strong Etape 5
+          %td Mise à jour des rappels
+
+    = bootstrap_form_for(@commcare_update) do |f|
+      = f.hidden_field :progress, value: "1"
+      = f.hidden_field :cc_update_on, value: Date.today
+      = link_to "Annuler", root_path, class: "btn btn-default"
+      = f.submit "Continuer", class: "btn btn-primary pull-right"

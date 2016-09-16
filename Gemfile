@@ -36,6 +36,7 @@ gem 'haml-rails', '~> 0.9'
 gem 'font-awesome-rails', '4.6.3.1'
 gem 'will_paginate', '3.1.0'
 gem 'will_paginate-bootstrap', '1.0.1'
+gem 'bootstrap_form', '2.5.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
