@@ -14,6 +14,10 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def edit
+    puts "==="
+    puts params[:id]
+    puts "==="
+    return
   end
 
   def create
@@ -33,10 +37,10 @@ class CommcareUpdatesController < ApplicationController
   def update
     respond_to do |format|
       if @commcare_update.update(commcare_update_params)
-        format.html { redirect_to @commcare_update, notice: 'CommcareUpdate was successfully updated.' }
+        format.html { redirect_to eval("step#{@commcare_update.progress}_commcare_update_path(@commcare_update)"), notice: 'CommcareUpdate was successfully updated.' }
         format.json { render :show, status: :ok, location: @commcare_update }
       else
-        format.html { render :edit }
+        format.html { render "step#{@commcare_update.progress - 1}".to_sym }
         format.json { render json: @commcare_update.errors, status: :unprocessable_entity }
       end
     end
@@ -81,7 +85,7 @@ class CommcareUpdatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def commcare_update_params
-      params.require(:commcare_update).permit(:progress, :cc_update_on, :active)
+      params.require(:commcare_update).permit(:progress, :cc_update_on, :active, :morpho_sql)
     end
 
 end
