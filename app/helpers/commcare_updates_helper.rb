@@ -2,7 +2,7 @@ module CommcareUpdatesHelper
   def action_link u
     if u.is_current?
       link_to "#{fa_icon('arrow-circle-right')} Continuer".html_safe,
-        controller: 'commcare_updates', action: "step#{u.progress}", id: u
+        controller: 'commcare_updates', action: "edit", id: u.id, step: u.progress
     else
       link_to "#{fa_icon('eye')} Voir".html_safe, u
     end

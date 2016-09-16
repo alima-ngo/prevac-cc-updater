@@ -1,0 +1,8 @@
+.row
+  .col-md-12
+    %ol.breadcrumb
+      %li
+        = fa_icon "home"
+        = link_to "Liste des mises à jour", root_path
+      %li= link_to @commcare_update.cc_update_on.strftime("%Y-%m-%d"), @commcare_update
+      %li.active Etape 3 : Ajout des nouveaux rappels

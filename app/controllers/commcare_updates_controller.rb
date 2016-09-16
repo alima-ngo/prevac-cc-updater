@@ -14,10 +14,7 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def edit
-    puts "==="
-    puts params[:id]
-    puts "==="
-    return
+    @step = params[:step]
   end
 
   def create
@@ -25,7 +22,7 @@ class CommcareUpdatesController < ApplicationController
 
     respond_to do |format|
       if @commcare_update.save
-        format.html { redirect_to step1_commcare_update_path(@commcare_update), notice: 'CommcareUpdate was successfully created.' }
+        format.html { redirect_to step_commcare_update_path(@commcare_update, step: 1), notice: 'CommcareUpdate was successfully created.' }
         format.json { render :show, status: :created, location: @commcare_update }
       else
         format.html { render :new }
@@ -35,12 +32,14 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def update
+    @step = @commcare_update.progress - 1 # In case of error
+
     respond_to do |format|
       if @commcare_update.update(commcare_update_params)
-        format.html { redirect_to eval("step#{@commcare_update.progress}_commcare_update_path(@commcare_update)"), notice: 'CommcareUpdate was successfully updated.' }
+        format.html { redirect_to step_commcare_update_path(@commcare_update, step: @commcare_update.progress), notice: 'CommcareUpdate was successfully updated.' }
         format.json { render :show, status: :ok, location: @commcare_update }
       else
-        format.html { render "step#{@commcare_update.progress - 1}".to_sym }
+        format.html { render :edit, step: @commcare_update.progress - 1 }
         format.json { render json: @commcare_update.errors, status: :unprocessable_entity }
       end
     end

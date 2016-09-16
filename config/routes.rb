@@ -2,11 +2,7 @@ Rails.application.routes.draw do
 
   resources :commcare_updates do
     member do
-      get 'step:id', action: "edit"
-      # get 'step2'
-      # get 'step3'
-      # get 'step4'
-      # get 'step5'
+      get 'step:step', action: "edit", as: "step"
     end
   end
 

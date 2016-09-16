@@ -1,7 +1,6 @@
 class CommcareUpdate < ApplicationRecord
   attr_accessor :morpho_sql
-
-  validates :morpho_sql, presence: true
+  validates :morpho_sql, presence: true, if: "!id.nil? and progress == 2"
 
   MAX_STEPS = 5
   COMPLETION_STEP = MAX_STEPS + 1
