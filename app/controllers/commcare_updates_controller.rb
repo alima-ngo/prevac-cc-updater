@@ -2,6 +2,8 @@ class CommcareUpdatesController < ApplicationController
   before_action :set_commcare_update, except: [:index, :new, :create]
   before_action :check_on_going_update, only: [:new, :create]
 
+  require 'fileutils'
+
   def index
     @commcare_updates = CommcareUpdate.order(cc_update_on: 'desc').paginate(:page => params[:page], per_page: 7)
   end
@@ -33,7 +35,7 @@ class CommcareUpdatesController < ApplicationController
 
   def update
     @step = @commcare_update.progress - 1 # In case of error
-
+    eval("step#{@step}")
     respond_to do |format|
       if @commcare_update.update(commcare_update_params)
         format.html { redirect_to step_commcare_update_path(@commcare_update, step: @commcare_update.progress), notice: 'CommcareUpdate was successfully updated.' }
@@ -56,6 +58,23 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def step1
+    # Check data in file is actually of the correct date (today)
+
+    # Save file to repository
+    f = params[:commcare_update][:morpho_sql]
+    dir_name = @commcare_update.cc_update_on.strftime("%Y-%m-%d")
+    dir_path = "#{CommcareUpdate::UPDATES_PATH}/#{dir_name}"
+    fname = "#{dir_name}-#{CommcareUpdate::MORPHO_SQL_FILENAME}"
+    FileUtils.mkdir dir_path
+    FileUtils.cp f.tempfile, "#{dir_path}/#{fname}"
+
+    # Seed Database
+    FileUtils.cp f.tempfile, "#{dir_path}/#{CommcareUpdate::MQI_STRUCTURE_FILENAME}"
+
+      # Check import worked
+
+
+    # Create XLS with new participants
   end
 
   def step2

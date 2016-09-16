@@ -9,7 +9,7 @@
 
 .row
   .col-md-12
-    = bootstrap_form_for(@commcare_update) do |f|
+    = bootstrap_form_for(@commcare_update, multipart: true) do |f|
       = f.hidden_field :progress, value: "2"
 
       .panel.panel-primary

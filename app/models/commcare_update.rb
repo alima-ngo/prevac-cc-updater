@@ -2,6 +2,11 @@ class CommcareUpdate < ApplicationRecord
   attr_accessor :morpho_sql
   validates :morpho_sql, presence: true, if: "!id.nil? and progress == 2"
 
+  UPDATES_PATH = "public/updates"
+  MORPHO_SQL_FILENAME = "morpho-db.sql"
+
+  MQI_PATH = "../prevac-morpho-query-interface"
+
   MAX_STEPS = 5
   COMPLETION_STEP = MAX_STEPS + 1
 
