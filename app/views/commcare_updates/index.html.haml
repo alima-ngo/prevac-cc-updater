@@ -9,8 +9,8 @@
   .col-md-12
     %p.text-right
       %a.btn.btn-primary{href: new_commcare_update_path, role: "button"}
-        = fa_icon "plus"
         Nouvelle mise à jour
+        = fa_icon "plus"
 
     %table.table
       %thead
@@ -19,7 +19,7 @@
           %th Etape
           %th Action
       - @commcare_updates.each do |u|
-        %tr{class: u.status_class}
+        %tr{class: status_class(u)}
           %td= date_label u
           %td= progress_label u
           %td= action_link(u)

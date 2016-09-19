@@ -2,8 +2,6 @@ class CommcareUpdatesController < ApplicationController
   before_action :set_commcare_update, except: [:index, :new, :create]
   before_action :check_on_going_update, only: [:new, :create]
 
-  require 'fileutils'
-
   def index
     @commcare_updates = CommcareUpdate.order(cc_update_on: 'desc').paginate(:page => params[:page], per_page: 7)
   end
@@ -16,7 +14,10 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def edit
-    @step = params[:step]
+    if !@commcare_update.is_current?
+      redirect_to root_path, alert: "Cette mise à jour est close"
+    end
+    @current_step = params[:step]
   end
 
   def create
@@ -34,8 +35,7 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def update
-    @step = @commcare_update.progress - 1 # In case of error
-    eval("step#{@step}")
+    @current_step = @commcare_update.progress
     respond_to do |format|
       if @commcare_update.update(commcare_update_params)
         format.html { redirect_to step_commcare_update_path(@commcare_update, step: @commcare_update.progress), notice: 'CommcareUpdate was successfully updated.' }
@@ -57,38 +57,6 @@ class CommcareUpdatesController < ApplicationController
     end
   end
 
-  def step1
-    # Check data in file is actually of the correct date (today)
-
-    # Save file to repository
-    f = params[:commcare_update][:morpho_sql]
-    dir_name = @commcare_update.cc_update_on.strftime("%Y-%m-%d")
-    dir_path = "#{CommcareUpdate::UPDATES_PATH}/#{dir_name}"
-    fname = "#{dir_name}-#{CommcareUpdate::MORPHO_SQL_FILENAME}"
-    FileUtils.mkdir dir_path
-    FileUtils.cp f.tempfile, "#{dir_path}/#{fname}"
-
-    # Seed Database
-    FileUtils.cp f.tempfile, "#{dir_path}/#{CommcareUpdate::MQI_STRUCTURE_FILENAME}"
-
-      # Check import worked
-
-
-    # Create XLS with new participants
-  end
-
-  def step2
-  end
-
-  def step3
-  end
-
-  def step4
-  end
-
-  def step5
-  end
-
   private
     def check_on_going_update
       if CommcareUpdate.on_going_update?
@@ -105,5 +73,4 @@ class CommcareUpdatesController < ApplicationController
     def commcare_update_params
       params.require(:commcare_update).permit(:progress, :cc_update_on, :active, :morpho_sql)
     end
-
 end
