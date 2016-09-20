@@ -1,1 +1,8 @@
+- if @commcare_update.errors.details[:base].size > 0
+  - @commcare_update.errors.details[:base].each do |e|
+    %div.alert.alert-danger.alert-dismissible{role: "alert"}
+      %button.close{type: "button", "data-dismiss" => "alert", "aria-label" => "Close"}
+        %span{"aria-hidden" => "true"} &times;
+      %div= e[:error]
+
 = render "step#{@current_step}"

@@ -23,6 +23,7 @@ class CommcareUpdate < ApplicationRecord
   end
 
   def validate_step1
+    #errors.add(:base, "error message")
     if morpho_sql.nil?
       errors.add(:morpho_sql, "Veuillez sélectionner un fichier")
       return
@@ -36,7 +37,7 @@ class CommcareUpdate < ApplicationRecord
 
     # Check import worked
     # Create XLS with new participants
-    
+
     self.progress = 2
   end
 

@@ -2,7 +2,7 @@
   .col-md-8.col-md-offset-2
     - flash.each do |name, msg|
       - if msg.is_a?(String)
-        %div{:class => "alert alert-#{name == "alert" ? "danger" : "success"}", role: "alert"}
-          %button.close{"aria-label" => "alert", "aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"}
-            %span &times;
+        %div.alert.alert-dismissible{:class => "alert-#{name == "alert" ? "danger" : "success"}", role: "alert"}
+          %button.close{type: "button", "data-dismiss" => "alert", "aria-label" => "Close"}
+            %span{"aria-hidden" => "true"} &times;
           %div{id:"flash_#{name}"}= msg
