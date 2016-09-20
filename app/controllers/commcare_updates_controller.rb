@@ -38,7 +38,7 @@ class CommcareUpdatesController < ApplicationController
     @current_step = @commcare_update.progress
     respond_to do |format|
       if @commcare_update.update(commcare_update_params)
-        format.html { redirect_to step_commcare_update_path(@commcare_update, step: @commcare_update.progress), notice: 'CommcareUpdate was successfully updated.' }
+        format.html { redirect_to step_commcare_update_path(@commcare_update, step: @commcare_update.progress), notice: "Etape #{@commcare_update.progress - 1} validée avec succès"  }
         format.json { render :show, status: :ok, location: @commcare_update }
       else
         format.html { render :edit, step: @commcare_update.progress - 1 }

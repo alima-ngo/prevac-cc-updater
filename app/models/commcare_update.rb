@@ -23,20 +23,21 @@ class CommcareUpdate < ApplicationRecord
   end
 
   def validate_step1
-    errors.add(:morpho_sql, "Veuillez sélectionner un fichier") if morpho_sql.nil?
-    # day = @commcare_update.cc_update_on.strftime("%Y-%m-%d")
-    # upload = params[:commcare_update][:morpho_sql]
-    #
-    # create_daily_repo day
-    # save_morpho_sql upload, day
-    # copy_morpho_sql_to_mqi upload
+    if morpho_sql.nil?
+      errors.add(:morpho_sql, "Veuillez sélectionner un fichier")
+      return
+    end
 
-    # Seed Database
-      # Check data in file is actually of the correct date (today)
-      # Check import worked
+    day = cc_update_on.strftime("%Y-%m-%d")
+    create_daily_repo(day)
+    save_morpho_sql(morpho_sql, day)
+    copy_morpho_sql_to_mqi(morpho_sql)
+    system("./bin/migrate_mqi.sh")
 
-
+    # Check import worked
     # Create XLS with new participants
+    
+    self.progress = 2
   end
 
   def validate_step2
@@ -57,13 +58,13 @@ class CommcareUpdate < ApplicationRecord
     FileUtils.mkdir "#{UPDATES_PATH}/#{day}" if !Dir.exist? "#{UPDATES_PATH}/#{day}"
   end
 
-  def save_morpho_sql upload, day
+  def save_morpho_sql sql_upload, day
     filename = "#{day}-#{MORPHO_SQL_FILENAME}"
-    FileUtils.cp upload.tempfile, "#{UPDATES_PATH}/#{day}/#{filename}"
+    FileUtils.cp sql_upload.tempfile, "#{UPDATES_PATH}/#{day}/#{filename}"
   end
 
-  def copy_morpho_sql_to_mqi upload
-    FileUtils.cp upload.tempfile, "#{MQI_PATH}/db/#{MQI_STRUCTURE_FILENAME}"
+  def copy_morpho_sql_to_mqi sql_upload
+    FileUtils.cp sql_upload.tempfile, "#{MQI_PATH}/db/#{MQI_STRUCTURE_FILENAME}"
   end
 
 end

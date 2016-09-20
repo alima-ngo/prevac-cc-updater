@@ -6,3 +6,25 @@
         = link_to "Liste des mises à jour", root_path
       %li= link_to @commcare_update.cc_update_on.strftime("%Y-%m-%d"), @commcare_update
       %li.active Etape 2 : Ajout des nouveaux participants
+
+.row
+  .col-md-12
+    = bootstrap_form_for(@commcare_update, multipart: true) do |f|
+      = f.hidden_field :progress, value: "2"
+
+      .panel.panel-primary
+        .panel-heading 1. Télécharger les données des nouveaux participants
+        .panel-body.text-center
+          %a.btn.btn-success{href:"#"}
+            = fa_icon "download"
+            Télécharger
+
+      .panel.panel-primary
+        .panel-heading 2. Importer les nouveaux participants dans CommCare
+        .panel-body.text-center
+          %a.btn.btn-success{href: "https://www.commcarehq.org/a/prevac-1/data/edit/import_cases/", target: "_blank"}
+            = fa_icon "share-square-o"
+            Importer
+
+      = link_to "Annuler", root_path, class: "btn btn-default"
+      = f.submit "Continuer", class: "btn btn-primary pull-right"
