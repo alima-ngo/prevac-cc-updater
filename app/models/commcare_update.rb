@@ -33,9 +33,10 @@ class CommcareUpdate < ApplicationRecord
     create_daily_repo(day)
     save_morpho_sql(morpho_sql, day)
     copy_morpho_sql_to_mqi(morpho_sql)
+    # Call last_update on mqi
     system("./bin/migrate_mqi.sh")
+    # Call last_update on mqi and check if import worked
 
-    # Check import worked
     # Create XLS with new participants
 
     self.progress = 2
