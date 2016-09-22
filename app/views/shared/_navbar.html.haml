@@ -4,3 +4,10 @@
       .container-fluid
         .navbar-header
           %a.navbar-brand{href: root_path} PREVAC CommCare Updater
+        .collapse.navbar-collapse#app_nav_bar
+          %p.navbar-text.navbar-right
+            MQI
+            - if @mqi_status == "ok"
+              = fa_icon "circle", id: "mqi_status", class: "green-text"
+            - else
+              = fa_icon "circle", id: "mqi_status", class: "red-text blink"
