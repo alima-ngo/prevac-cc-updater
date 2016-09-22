@@ -1,6 +1,8 @@
 class CommcareUpdatesController < ApplicationController
+  before_action :check_mqi_status, except: [:index, :show]
   before_action :set_commcare_update, except: [:index, :new, :create]
   before_action :check_on_going_update, only: [:new, :create]
+
 
   def index
     @commcare_updates = CommcareUpdate.order(cc_update_on: 'desc').paginate(:page => params[:page], per_page: 7)
@@ -72,5 +74,11 @@ class CommcareUpdatesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def commcare_update_params
       params.require(:commcare_update).permit(:progress, :cc_update_on, :active, :morpho_sql)
+    end
+
+    def check_mqi_status
+      if @mqi_status == "ko"
+        redirect_to root_path, alert: "L'application MQI ne fonctionne pas. Veuillez rédemarrer la machine et/ou contacter le Responsable IT."
+      end
     end
 end
