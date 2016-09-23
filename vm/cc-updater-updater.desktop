@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Mise a jour
+Comment=Mise a jour de CC Updater
+Exec=/home/dm/Documents/update_apps/update_apps.sh
+Icon=/home/dm/Documents/update_apps/icon.png
+Terminal=true
+Type=Application
+StartupNotify=true
