@@ -3,7 +3,6 @@ class CommcareUpdatesController < ApplicationController
   before_action :set_commcare_update, except: [:index, :new, :create]
   before_action :check_on_going_update, only: [:new, :create]
 
-
   def index
     @commcare_updates = CommcareUpdate.order(cc_update_on: 'desc').paginate(:page => params[:page], per_page: 7)
   end
@@ -57,6 +56,10 @@ class CommcareUpdatesController < ApplicationController
       format.html { redirect_to reports_url, notice: 'CommcareUpdate was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def new_participants_file
+    send_file @commcare_update.new_participant_file_path
   end
 
   private
