@@ -59,7 +59,7 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def new_participants_file
-    send_file @commcare_update.new_participant_file_path
+    send_file @commcare_update.new_participants_file_path
   end
 
   private
@@ -76,7 +76,7 @@ class CommcareUpdatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def commcare_update_params
-      params.require(:commcare_update).permit(:progress, :cc_update_on, :active, :morpho_sql)
+      params.require(:commcare_update).permit(:progress, :cc_update_on, :active, :morpho_sql, :new_pids)
     end
 
     def check_mqi_status
