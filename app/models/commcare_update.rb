@@ -17,7 +17,7 @@ class CommcareUpdate < ApplicationRecord
   MQI_PATH = "../prevac-morpho-query-interface"
   MQI_STRUCTURE_FILENAME = "structure.sql"
 
-  NEW_PARTICIPANTS_FILENAME = "new_participants.xls"
+  NEW_PARTICIPANTS_BASENAME = "new_participants"
 
   def self.on_going_update?
     a = CommcareUpdate.where("cc_update_on = :date AND progress < :completion_step", {date: Date.today, completion_step: COMPLETION_STEP})
@@ -76,9 +76,9 @@ class CommcareUpdate < ApplicationRecord
   def validate_step5
   end
 
-  def new_participants_file_path
+  def new_participants_file_path ext
     day = cc_update_on.strftime("%Y-%m-%d")
-    "#{UPDATES_PATH}/#{day}/#{day}-#{NEW_PARTICIPANTS_FILENAME}"
+    "#{UPDATES_PATH}/#{day}/#{day}-#{NEW_PARTICIPANTS_BASENAME}.#{ext}"
   end
 
   private

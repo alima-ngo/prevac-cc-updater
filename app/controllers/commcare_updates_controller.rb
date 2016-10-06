@@ -59,7 +59,7 @@ class CommcareUpdatesController < ApplicationController
   end
 
   def new_participants_file
-    send_file @commcare_update.new_participants_file_path
+    send_file @commcare_update.new_participants_file_path("xls")
   end
 
   private

@@ -1,5 +1,5 @@
 class ExcelExporter
-  EMPTY_EXCEL_FILENAME = "bin/empty-excel-file.xls"
+  require 'csv'
 
   STATIC_FIELDS = {
     case_id:                        {value: "", format: "string"},
@@ -55,16 +55,12 @@ class ExcelExporter
     end
 
     participants = self.clean_morpho_data(JSON.parse(r.body, object_class: OpenStruct))
-
-    date_format = Spreadsheet::Format.new :number_format => 'YYYY-MM-DD'
-    Spreadsheet.client_encoding = 'UTF-8'
-    book = Spreadsheet.open(EMPTY_EXCEL_FILENAME)
-    sheet = book.worksheets.first
+    csv_content = []
 
     header = STATIC_FIELDS.keys.map { |k| k.to_s }
     header.concat MORPHO_FIELDS.keys.map { |k| k.to_s }
     header.concat VISIT_FIELDS.values.map { |k| [k[:done_field], k[:planned_field]]}.flatten
-    sheet.row(0).concat header
+    csv_content.push header
 
     participants.each do |p|
       x = []
@@ -74,24 +70,16 @@ class ExcelExporter
         j0 = Date.parse(p.Date_Of_Enrollment)
         x.concat ["", self.compute_visit_planned_date(j0, v)] # [done, planned]
       end
-      sheet.row(sheet.row_count).concat x
+      csv_content.push x
     end
 
-    # i = 0
-    # STATIC_FIELDS.each do |k, v|
-    #   sheet.column(i).default_format = date_format if v[:format] = "date"
-    #   i += 1
-    # end
-    # MORPHO_FIELDS.each do |k, v|
-    #   sheet.column(i).default_format = date_format if v[:format] = "date"
-    #   i += 1
-    # end
-    # VISIT_FIELDS.each do |k, v|
-    #   sheet.column(i).default_format = date_format if v[:format] = "date"
-    #   i += 1
-    # end
+    csv_filename = cc_update.new_participants_file_path("csv")
+    CSV.open(csv_filename, "w+", force_quotes: true, quote_char: '"') do |csv|
+      csv_content.each { |r| csv << r }
+    end
 
-    book.write cc_update.new_participants_file_path
+    xls_filename = cc_update.new_participants_file_path("xls")
+    system("ssconvert --export-type=Gnumeric_Excel:excel_biff8 #{csv_filename} #{xls_filename}")
 
     participants
   end
@@ -99,9 +87,7 @@ class ExcelExporter
   def self.clean_morpho_data data
     data.each do |d|
       d.Gender.downcase!
-      d.Date_Of_Exclude = d.Date_Of_Exclude.to_s.gsub("-", "/")
-      d.Date_Of_Enrollment = d.Date_Of_Enrollment.to_s.gsub("-", "/")
-      d.Sub_Prefecture = "zone-1" #DEBUG
+      d.Sub_Prefecture = "zone-1" # DEBUG
     end
     data
   end
@@ -113,7 +99,11 @@ class ExcelExporter
     else # == "m"
       d = j0 >> visit[:delta]
     end
-    d.strftime("%Y/%m/%d")
+    d.strftime("%Y-%m-%d")
+  end
+
+  def self.write_csv data
+
   end
 
 end
