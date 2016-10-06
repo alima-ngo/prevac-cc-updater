@@ -1,41 +1,48 @@
 class ExcelExporter
   EMPTY_EXCEL_FILENAME = "bin/empty-excel-file.xls"
 
+  STATIC_FIELDS = {
+    case_id:                        {value: "", format: "string"},
+    prochaine_visite:               {value: "j7", format: "string"},
+    confirmation_prochaine_visite:  {value: "non", format: "string"},
+    date_dernier_rappel:            {value: "", format: "date"}
+  }
+
   MORPHO_FIELDS = {
-    name:	"PID",
-    nom_prenom: "Full_Name",
-    site: "Prefecture",
-    zone: "Sub_Prefecture",
-    complement_adresse: "Village",
-    owner_name: "Sub_Prefecture",
-    telephone_1: "Phone_Number_1",
-    telephone_2: "Phone_Number_2",
-    email: "Email",
-    contact_1_nom: "Full_Name_Additional_Contact_1",
-    contact_1_info: "Information_Additional_Contact_1",
-    contact_1_telephone: "Phone_Number_Additional_Contact_1",
-    contact_2_nom: "Full_Name_Additional_Contact_2",
-    contact_2_info: "Information_Additional_Contact_2",
-    contact_2_telephone: "Phone_Number_Additional_Contact_2",
-    mois_naissance: "Month_Of_Birth",
-    annee_naissance: "Year_Of_Birth",
-    genre: "Gender",
-    exclu: "Exclude",
-    date_exclusion: "Date_Of_Exclude",
-    date_j0_effectuee: "Date_Of_Enrollment"
+    name:                 {morpho_field: "PID", format: "string"},
+    nom_prenom:           {morpho_field: "Full_Name", format: "string"},
+    site:                 {morpho_field: "Prefecture", format: "string"}, # FIX
+    zone:                 {morpho_field: "Sub_Prefecture", format: "string"}, # FIX
+    complement_adresse:   {morpho_field: "Village", format: "string"}, # FIX
+    owner_name:           {morpho_field: "Sub_Prefecture", format: "string"}, #FIX
+    telephone_1:          {morpho_field: "Phone_Number_1", format: "string"},
+    telephone_2:          {morpho_field: "Phone_Number_2", format: "string"},
+    email:                {morpho_field: "Email", format: "string"},
+    contact_1_nom:        {morpho_field: "Full_Name_Additional_Contact_1", format: "string"},
+    contact_1_info:       {morpho_field: "Information_Additional_Contact_1", format: "string"},
+    contact_1_telephone:  {morpho_field: "Phone_Number_Additional_Contact_1", format: "string"},
+    contact_2_nom:        {morpho_field: "Full_Name_Additional_Contact_2", format: "string"},
+    contact_2_info:       {morpho_field: "Information_Additional_Contact_2", format: "string"},
+    contact_2_telephone:  {morpho_field: "Phone_Number_Additional_Contact_2", format: "string"},
+    mois_naissance:       {morpho_field: "Month_Of_Birth", format: "string"},
+    annee_naissance:      {morpho_field: "Year_Of_Birth", format: "string"},
+    genre:                {morpho_field: "Gender", format: "string"},
+    exclu:                {morpho_field: "Exclude", format: "string"},
+    date_exclusion:       {morpho_field: "Date_Of_Exclude", format: "date"},
+    date_j0_effectuee:    {morpho_field: "Date_Of_Enrollment", format: "date"}
     #sous_etude: "" # TODO
   }
 
   VISIT_FIELDS = {
-    "j7" => {delta: 7, done_field: "date_j7_effectuee", planned_field: "date_j7_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j0"},
-    "j14" => {delta: 14, done_field: "date_j14_effectuee", planned_field: "date_j14_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j0"},
-    "j28" => {delta: 28, done_field: "date_j28_effectuee", planned_field: "date_j28_prevue", window_start: 7, window_end: 7, window_unit: "d", delta_unit: "d", relative_to: "j0"},
-    "j56" => {delta: 56, done_field: "date_j56_effectuee", planned_field: "date_j56_prevue", window_start: 3, window_end: 10, window_unit: "d", delta_unit: "d", relative_to: "j0"},
-    "j63" => {delta: 7, done_field: "date_j63_effectuee", planned_field: "date_j63_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j56"},
-    "j70" => {delta: 14, done_field: "date_j70_effectuee", planned_field: "date_j70_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j56"},
-    "m3" => {delta: 3, done_field: "date_m3_effectuee", planned_field: "date_m3_prevue", window_start: 14, window_end: 14, window_unit: "d", delta_unit: "m", relative_to: "j0"},
-    "m6" => {delta: 6, done_field: "date_m6_effectuee", planned_field: "date_m6_prevue", window_start: 1, window_end: 1, window_unit: "m", delta_unit: "m", relative_to: "j0"},
-    "m12" => {delta: 12, done_field: "date_m12_effectuee", planned_field: "date_m12_prevue", window_start: 1, window_end: 1, window_unit: "m", delta_unit: "m", relative_to: "j0"}
+    "j7" =>   {delta: 7, done_field: "date_j7_effectuee", planned_field: "date_j7_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j0"},
+    "j14" =>  {delta: 14, done_field: "date_j14_effectuee", planned_field: "date_j14_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j0"},
+    "j28" =>  {delta: 28, done_field: "date_j28_effectuee", planned_field: "date_j28_prevue", window_start: 7, window_end: 7, window_unit: "d", delta_unit: "d", relative_to: "j0"},
+    "j56" =>  {delta: 56, done_field: "date_j56_effectuee", planned_field: "date_j56_prevue", window_start: 3, window_end: 10, window_unit: "d", delta_unit: "d", relative_to: "j0"},
+    "j63" =>  {delta: 7, done_field: "date_j63_effectuee", planned_field: "date_j63_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j56"},
+    "j70" =>  {delta: 14, done_field: "date_j70_effectuee", planned_field: "date_j70_prevue", window_start: 3, window_end: 3, window_unit: "d", delta_unit: "d", relative_to: "j56"},
+    "m3" =>   {delta: 3, done_field: "date_m3_effectuee", planned_field: "date_m3_prevue", window_start: 14, window_end: 14, window_unit: "d", delta_unit: "m", relative_to: "j0"},
+    "m6" =>   {delta: 6, done_field: "date_m6_effectuee", planned_field: "date_m6_prevue", window_start: 1, window_end: 1, window_unit: "m", delta_unit: "m", relative_to: "j0"},
+    "m12" =>  {delta: 12, done_field: "date_m12_effectuee", planned_field: "date_m12_prevue", window_start: 1, window_end: 1, window_unit: "m", delta_unit: "m", relative_to: "j0"}
   }
 
   def self.create_new_participants_xls cc_update
@@ -49,25 +56,40 @@ class ExcelExporter
 
     participants = self.clean_morpho_data(JSON.parse(r.body, object_class: OpenStruct))
 
+    date_format = Spreadsheet::Format.new :number_format => 'YYYY-MM-DD'
     Spreadsheet.client_encoding = 'UTF-8'
     book = Spreadsheet.open(EMPTY_EXCEL_FILENAME)
     sheet = book.worksheets.first
 
-    header = MORPHO_FIELDS.keys.map { |k| k.to_s }
+    header = STATIC_FIELDS.keys.map { |k| k.to_s }
+    header.concat MORPHO_FIELDS.keys.map { |k| k.to_s }
     header.concat VISIT_FIELDS.values.map { |k| [k[:done_field], k[:planned_field]]}.flatten
-    header.concat ["prochaine_visite", "case_id"]
     sheet.row(0).concat header
 
     participants.each do |p|
       x = []
-      MORPHO_FIELDS.each { |k, v| x.push p.send(v) }
+      STATIC_FIELDS.each { |k, v| x.push v[:value] }
+      MORPHO_FIELDS.each { |k, v| x.push p.send(v[:morpho_field]) }
       VISIT_FIELDS.values.each do |v|
         j0 = Date.parse(p.Date_Of_Enrollment)
         x.concat ["", self.compute_visit_planned_date(j0, v)] # [done, planned]
       end
-      x.concat ["j7", ""] # prochaine visite, case_id
       sheet.row(sheet.row_count).concat x
     end
+
+    # i = 0
+    # STATIC_FIELDS.each do |k, v|
+    #   sheet.column(i).default_format = date_format if v[:format] = "date"
+    #   i += 1
+    # end
+    # MORPHO_FIELDS.each do |k, v|
+    #   sheet.column(i).default_format = date_format if v[:format] = "date"
+    #   i += 1
+    # end
+    # VISIT_FIELDS.each do |k, v|
+    #   sheet.column(i).default_format = date_format if v[:format] = "date"
+    #   i += 1
+    # end
 
     book.write cc_update.new_participants_file_path
 
@@ -77,6 +99,9 @@ class ExcelExporter
   def self.clean_morpho_data data
     data.each do |d|
       d.Gender.downcase!
+      d.Date_Of_Exclude = d.Date_Of_Exclude.to_s.gsub("-", "/")
+      d.Date_Of_Enrollment = d.Date_Of_Enrollment.to_s.gsub("-", "/")
+      d.Sub_Prefecture = "zone-1" #DEBUG
     end
     data
   end
@@ -88,7 +113,7 @@ class ExcelExporter
     else # == "m"
       d = j0 >> visit[:delta]
     end
-    d.to_s
+    d.strftime("%Y/%m/%d")
   end
 
 end
