@@ -62,6 +62,10 @@ class CommcareUpdatesController < ApplicationController
     send_file @commcare_update.new_participants_file_path("xls")
   end
 
+  def new_reminders_file
+    send_file @commcare_update.new_reminders_file_path("xls")
+  end
+
   private
     def check_on_going_update
       if CommcareUpdate.on_going_update?

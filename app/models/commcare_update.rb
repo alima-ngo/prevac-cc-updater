@@ -18,6 +18,7 @@ class CommcareUpdate < ApplicationRecord
   MQI_STRUCTURE_FILENAME = "structure.sql"
 
   NEW_PARTICIPANTS_BASENAME = "new_participants"
+  NEW_REMINDERS_BASENAME = "new_reminders"
 
   def self.on_going_update?
     a = CommcareUpdate.where("cc_update_on = :date AND progress < :completion_step", {date: Date.today, completion_step: COMPLETION_STEP})
@@ -58,7 +59,7 @@ class CommcareUpdate < ApplicationRecord
       return
     end
 
-    participants = ExcelExporter.create_new_participants_xls(self)
+    participants = ExcelExporter.create_new_participants_reminders_xls(self)
 
     self.new_pids = participants.map { |p| p.PID }.join(",")
     self.progress = 2
@@ -79,6 +80,11 @@ class CommcareUpdate < ApplicationRecord
   def new_participants_file_path ext
     day = cc_update_on.strftime("%Y-%m-%d")
     "#{UPDATES_PATH}/#{day}/#{day}-#{NEW_PARTICIPANTS_BASENAME}.#{ext}"
+  end
+
+  def new_reminders_file_path ext
+    day = cc_update_on.strftime("%Y-%m-%d")
+    "#{UPDATES_PATH}/#{day}/#{day}-#{NEW_REMINDERS_BASENAME}.#{ext}"
   end
 
   private

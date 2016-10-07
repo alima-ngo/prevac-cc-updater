@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     member do
       get 'step:step', action: "edit", as: "step"
       get 'new_participants_file'
+      get 'new_reminders_file'
     end
   end
 
