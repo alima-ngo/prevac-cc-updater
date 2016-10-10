@@ -6,8 +6,7 @@ class CommcareUpdate < ApplicationRecord
 
   attr_accessor :morpho_sql
 
-  validate :validate_step1, if: "!id.nil? and progress == 1"
-  validate :validate_step2, if: "!id.nil? and progress == 2"
+  validate :validate_steps, on: :update
 
   MAX_STEPS = 5
   COMPLETION_STEP = MAX_STEPS + 1
@@ -27,6 +26,21 @@ class CommcareUpdate < ApplicationRecord
 
   def is_current?
     cc_update_on == Date.today and progress != COMPLETION_STEP
+  end
+
+  def validate_steps
+    case self.progress
+      when 1
+        validate_step1
+      when 2
+        validate_step2
+      when 3
+        validate_step3
+      when 4
+        validate_step4
+      when 5
+        validate_step5
+    end
   end
 
   def validate_step1
@@ -66,15 +80,19 @@ class CommcareUpdate < ApplicationRecord
   end
 
   def validate_step2
+    self.progress = 3
   end
 
   def validate_step3
+    self.progress = 4
   end
 
   def validate_step4
+    self.progress = 5
   end
 
   def validate_step5
+    self.progress = 6
   end
 
   def new_participants_file_path ext

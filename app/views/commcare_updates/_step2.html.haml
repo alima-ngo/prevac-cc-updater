@@ -20,9 +20,6 @@
           %a.btn.btn-success{href: new_participants_file_commcare_update_path(@commcare_update)}
             = fa_icon "download"
             Participants
-          %a.btn.btn-success{href: new_reminders_file_commcare_update_path(@commcare_update)}
-            = fa_icon "download"
-            Rappels
           %button.btn.btn-default{type: "button", "data-toggle" => "popover",
           "data-placement" => "bottom",
           "data-content" => "<ul><li><b>Participants :</b> #{n_pids}</li><li><b>PIDs :</b> #{pids}</li></ul>"}

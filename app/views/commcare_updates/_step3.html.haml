@@ -6,3 +6,39 @@
         = link_to "Liste des mises à jour", root_path
       %li= link_to @commcare_update.cc_update_on.strftime("%Y-%m-%d"), @commcare_update
       %li.active Etape 3 : Ajout des nouveaux rappels
+
+.row
+  .col-md-12
+    = bootstrap_form_for(@commcare_update, multipart: true) do |f|
+      = f.hidden_field :progress, value: "3"
+
+      .panel.panel-primary
+        .panel-heading 1. Télécharger les nouveaux rappels
+        .panel-body.text-center
+          %a.btn.btn-success{href: new_reminders_file_commcare_update_path(@commcare_update)}
+            = fa_icon "download"
+            Rappels
+
+      .panel.panel-primary
+        .panel-heading 2. Importer les nouveaux rappels dans CommCare
+        .panel-body.text-center
+          %a.btn.btn-success{href: "https://www.commcarehq.org/a/prevac-1/data/edit/import_cases/", target: "_blank"}
+            = fa_icon "share-square-o"
+            Importer
+          %button.btn.btn-default{type: "button", "data-toggle" => "modal", "data-target" => "#new-participants-import-modal"}
+            = fa_icon "info-circle"
+
+      = link_to "Annuler", root_path, class: "btn btn-default"
+      = f.submit "Continuer", class: "btn btn-primary pull-right"
+
+.modal.fade#new-participants-import-modal{tabindex: "-1", role: "dialog", "aria-labelledby" => "myModalLabel"}
+  .modal-dialog{role: "document"}
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-label" => "Close"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4.modal-title#myModalLabel
+          = fa_icon "info-circle"
+          Import des nouveaux rappels dans CommCare
+      .modal-body
+        = render partial: "help/step3/new_reminders_import"
