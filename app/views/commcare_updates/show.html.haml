@@ -12,37 +12,37 @@
       %p.text-right
         %a.btn.btn-primary{href: step_commcare_update_path(@commcare_update, step: @commcare_update.progress)} Continuer
 
-    .panel{class: @commcare_update.progress > 1 ? "panel-success" : "panel-danger"}
+    .panel{class: show_panel_class(@commcare_update, 1)}
       .panel-heading
-        = @commcare_update.progress > 1 ? fa_icon("check") : fa_icon("times")
+        = fa_icon(show_panel_icon(@commcare_update, 1))
         Etape 1. Import des données Morpho
       .panel-body
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-    .panel{class: @commcare_update.progress > 2 ? "panel-success" : "panel-danger"}
+    .panel{class: show_panel_class(@commcare_update, 2)}
       .panel-heading
-        = @commcare_update.progress > 2 ? fa_icon("check") : fa_icon("times")
+        = fa_icon(show_panel_icon(@commcare_update, 2))
         Etape 2. Ajout des nouveaux participants
       .panel-body
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-    .panel{class: @commcare_update.progress > 3 ? "panel-success" : "panel-danger"}
+    .panel{class: show_panel_class(@commcare_update, 3)}
       .panel-heading
-        = @commcare_update.progress > 3 ? fa_icon("check") : fa_icon("times")
+        = fa_icon(show_panel_icon(@commcare_update, 3))
         Etape 3. Ajout des nouveaux rappels
       .panel-body
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-    .panel{class: @commcare_update.progress > 4 ? "panel-success" : "panel-danger"}
+    .panel{class: show_panel_class(@commcare_update, 4)}
       .panel-heading
-        = @commcare_update.progress > 4 ? fa_icon("check") : fa_icon("times")
+        = fa_icon(show_panel_icon(@commcare_update, 4))
         Etape 4. Mise à jour des statuts de visite
       .panel-body
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-    .panel{class: @commcare_update.progress > 5 ? "panel-success" : "panel-danger"}
+    .panel{class: show_panel_class(@commcare_update, 5)}
       .panel-heading
-        = @commcare_update.progress > 5 ? fa_icon("check") : fa_icon("times")
+        = fa_icon(show_panel_icon(@commcare_update, 5))
         Etape 5. Mise à jour des rappels
       .panel-body
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

@@ -38,4 +38,16 @@ module CommcareUpdatesHelper
     end
   end
 
+  def show_panel_class u, step
+    return "panel-danger" if u.progress < step
+    return "panel-info" if u.progress == step
+    return "panel-success" if u.progress > step
+  end
+
+  def show_panel_icon u, step
+    return "times" if u.progress < step
+    return "chevron-right" if u.progress == step
+    return "check" if u.progress > step
+  end
+
 end
