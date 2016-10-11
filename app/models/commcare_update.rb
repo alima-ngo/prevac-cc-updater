@@ -79,8 +79,28 @@ class CommcareUpdate < ApplicationRecord
     self.progress = 2
   end
 
-  def validate_step2
-    # check if import of new participants worked
+  def validate_step2 # check if import of new participants worked
+    received_pids = []
+    not_imported_pids = []
+
+    ccc = CommcareApi::CommcareConnector.new("guinee.respit.prevac@alima-ngo.org", "suffer.dublin.summer")
+    r = ccc.get_cases("prevac-1", type: "prevac-participant", server_date_modified_start: updated_at.strftime("%Y-%m-%d"), limit: 100)
+    while !r.nil? do
+      j = JSON.parse(r.body)
+      j["objects"].each { |o| received_pids.push o["properties"]["case_name"] }
+      r = ccc.get_next_data
+    end
+
+    imported_pids = self.new_pids.split(",")
+    imported_pids.each do |i|
+      not_imported_pids.push i if !received_pids.include?(i)
+    end
+
+    if not_imported_pids.size > 0
+      errors.add(:base, "L'import a échoué pour #{not_imported_pids.size} participant(s) : #{not_imported_pids.join(", ")}")
+      return
+    end
+
     self.progress = 3
   end
 

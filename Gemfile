@@ -37,7 +37,7 @@ gem 'font-awesome-rails', '4.6.3.1'
 gem 'will_paginate', '3.1.0'
 gem 'will_paginate-bootstrap', '1.0.1'
 gem 'bootstrap_form', '2.5.0'
-gem 'commcare_api', '0.3.2'
+gem 'commcare_api', '0.3.3'
 gem "http", '2.0.3'
 gem 'rack-cors', '0.4.0', :require => 'rack/cors'
 
