@@ -80,10 +80,12 @@ class CommcareUpdate < ApplicationRecord
   end
 
   def validate_step2
+    # check if import of new participants worked
     self.progress = 3
   end
 
   def validate_step3
+    # check if import of new reminders worked
     self.progress = 4
   end
 

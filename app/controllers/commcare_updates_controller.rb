@@ -26,7 +26,7 @@ class CommcareUpdatesController < ApplicationController
 
     respond_to do |format|
       if @commcare_update.save
-        format.html { redirect_to step_commcare_update_path(@commcare_update, step: 1), notice: 'CommcareUpdate was successfully created.' }
+        format.html { redirect_to step_commcare_update_path(@commcare_update, step: 1), notice: 'Mise à jour ouverte avec succès' }
         format.json { render :show, status: :created, location: @commcare_update }
       else
         format.html { render :new }

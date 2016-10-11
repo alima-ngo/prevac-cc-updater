@@ -6,3 +6,5 @@ jQuery ->
   $('[data-toggle="popover"]').popover(
     html: true
   )
+
+  $('.alert-success').fadeTo(2000, 500).slideUp(500)
