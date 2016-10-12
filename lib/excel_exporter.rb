@@ -71,8 +71,9 @@ class ExcelExporter
   def self.create_new_participants_reminders_xls cc_update
     p_data = self.get_new_participants_data(cc_update)
     self.generate_new_participants_files(cc_update, p_data)
-    self.generate_new_reminders_files(cc_update, p_data)
-    p_data
+    r_data = self.generate_new_reminders_files(cc_update, p_data)
+
+    return {participants: p_data, reminders: r_data}
   end
 
   def self.generate_new_participants_files cc_update, p_data
@@ -105,6 +106,7 @@ class ExcelExporter
 
   def self.generate_new_reminders_files cc_update, p_data
     csv_content = []
+    reminders_name = []
 
     header = NEW_REMINDERS_FIELDS.keys.map { |k| k.to_s }
     csv_content.push header
@@ -133,6 +135,7 @@ class ExcelExporter
           x.push parent_external_id
 
           csv_content.push x
+          reminders_name.push name
         end
       end
     end
@@ -144,6 +147,8 @@ class ExcelExporter
 
     xls_filename = cc_update.new_reminders_file_path("xls")
     system("ssconvert --export-type=#{EXCEL_EXPORT_FORMAT} #{csv_filename} #{xls_filename}")
+
+    reminders_name
   end
 
   def self.get_new_participants_data cc_update

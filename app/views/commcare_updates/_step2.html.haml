@@ -12,8 +12,8 @@
     = bootstrap_form_for(@commcare_update, multipart: true) do |f|
       = f.hidden_field :progress, value: "2"
 
-      - pids = @commcare_update.new_pids.gsub(",", ", ")
-      - n_pids = @commcare_update.new_pids.count(",") + 1
+      - pids = JSON.parse(@commcare_update.new_participants).map{|e| e["pid"]}.join(", ")
+      - n_pids = pids.count(",") + 1
       .panel.panel-primary
         .panel-heading 1. Télécharger les données des nouveaux participants
         .panel-body.text-center

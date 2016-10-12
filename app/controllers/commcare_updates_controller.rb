@@ -80,7 +80,7 @@ class CommcareUpdatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def commcare_update_params
-      params.require(:commcare_update).permit(:progress, :cc_update_on, :active, :morpho_sql, :new_pids)
+      params.require(:commcare_update).permit(:progress, :cc_update_on, :active, :morpho_sql, :new_participants, :new_reminders)
     end
 
     def check_mqi_status

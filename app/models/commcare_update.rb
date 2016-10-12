@@ -3,6 +3,7 @@ class CommcareUpdate < ApplicationRecord
 
   scope :last_successful_morpho_import, -> { where("progress > 1").order(cc_update_on: :desc).limit(1).first.cc_update_on.strftime("%Y-%m-%d") }
   scope :last_successful_new_participant_import, -> { where("progress > 2").order(cc_update_on: :desc).limit(1).first.cc_update_on.strftime("%Y-%m-%d") }
+  scope :last_successful_new_reminder_import, -> { where("progress > 3").order(cc_update_on: :desc).limit(1).first.cc_update_on.strftime("%Y-%m-%d") }
 
   attr_accessor :morpho_sql
 
@@ -73,27 +74,37 @@ class CommcareUpdate < ApplicationRecord
       return
     end
 
-    participants = ExcelExporter.create_new_participants_reminders_xls(self)
+    data = ExcelExporter.create_new_participants_reminders_xls(self)
 
-    self.new_pids = participants.map { |p| p.PID }.join(",")
+    self.new_participants = data[:participants].map { |p| {"pid" => p.PID} }.to_json
+    self.new_reminders = data[:reminders].map { |r| {"case_name" => r} }.to_json
     self.progress = 2
   end
 
   def validate_step2 # check if import of new participants worked
-    received_pids = []
+    received_cases = []
+    imported_cases = []
     not_imported_pids = []
 
     ccc = CommcareApi::CommcareConnector.new("guinee.respit.prevac@alima-ngo.org", "suffer.dublin.summer")
-    r = ccc.get_cases("prevac-1", type: "prevac-participant", server_date_modified_start: updated_at.strftime("%Y-%m-%d"), limit: 100)
+    r = ccc.get_cases("prevac-1", type: "prevac-participant", server_date_modified_start: CommcareUpdate.last_successful_new_participant_import, limit: 100)
     while !r.nil? do
       j = JSON.parse(r.body)
-      j["objects"].each { |o| received_pids.push o["properties"]["case_name"] }
+      j["objects"].each { |o| received_cases.push({case_id: o["case_id"], pid: o["properties"]["case_name"]}) }
       r = ccc.get_next_data
     end
 
-    imported_pids = self.new_pids.split(",")
-    imported_pids.each do |i|
-      not_imported_pids.push i if !received_pids.include?(i)
+    imported_pids = JSON.parse(self.new_participants).map { |e| e["pid"] }
+    imported_pids.each do |pid|
+      found = false
+      received_cases.each do |c|
+        if pid == c[:pid]
+          imported_cases.push c
+          found = true
+          break
+        end
+      end
+      not_imported_pids.push pid if !found
     end
 
     if not_imported_pids.size > 0
@@ -101,15 +112,53 @@ class CommcareUpdate < ApplicationRecord
       return
     end
 
+    self.new_participants = imported_cases.to_json
     self.progress = 3
   end
 
-  def validate_step3
-    # check if import of new reminders worked
+  def validate_step3 # check if import of new reminders worked
+    received_reminders = []
+    imported_reminders = []
+    not_imported_reminders = []
+
+    ccc = CommcareApi::CommcareConnector.new("guinee.respit.prevac@alima-ngo.org", "suffer.dublin.summer")
+    r = ccc.get_cases("prevac-1", type: "rappel", server_date_modified_start: CommcareUpdate.last_successful_new_reminder_import, limit: 100)
+    while !r.nil? do
+      j = JSON.parse(r.body)
+      j["objects"].each do |o|
+        received_reminders.push({case_id: o["case_id"], case_name: o["properties"]["case_name"]})
+      end
+      r = ccc.get_next_data
+    end
+
+    expected_reminders = JSON.parse(self.new_reminders).map {|e| e["case_name"]}
+    expected_reminders.each do |r|
+      found = false
+      received_reminders.each do |e|
+        if r == e[:case_name]
+          imported_reminders.push e
+          found = true
+          break
+        end
+      end
+      not_imported_reminders.push r if !found
+    end
+
+    if not_imported_reminders.size > 0
+      errors.add(:base, "L'import a échoué pour #{not_imported_reminders.size} rappel(s) : #{not_imported_reminders.join(", ")}")
+      return
+    end
+
+    self.new_reminders = imported_reminders.to_json
+
+    # Create XLS to update participant visit status and exluded participants
+
     self.progress = 4
   end
 
   def validate_step4
+    # Validate update
+    # Create XLS to update existing reminders and add the ones for J63 and J70 if needed
     self.progress = 5
   end
 

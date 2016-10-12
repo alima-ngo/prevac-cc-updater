@@ -11,7 +11,8 @@
   .col-md-12
     = bootstrap_form_for(@commcare_update, multipart: true) do |f|
       = f.hidden_field :progress, value: "1"
-      = f.hidden_field :new_pids, value: ""
+      = f.hidden_field :new_participants, value: ""
+      = f.hidden_field :new_reminders, value: ""
 
       .panel.panel-primary
         .panel-heading 1. Télécharger l'export de la base de données Morpho (.sql)

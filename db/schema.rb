@@ -15,9 +15,10 @@ ActiveRecord::Schema.define(version: 20160928210218) do
   create_table "commcare_updates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "cc_update_on"
     t.integer  "progress"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.string   "new_pids"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.text     "new_participants", limit: 65535
+    t.text     "new_reminders",    limit: 65535
   end
 
 end
