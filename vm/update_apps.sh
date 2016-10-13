@@ -106,9 +106,9 @@ echo -e "${GREEN}
 ## REDEMARRAGE ##
 #################${NC}${BLUE}
 
-              ${MAGENTA}------${NC}
-  Appuyez sur ${MAGENTA}ENTREE${NC} pour redémarrer
-  =========== ${MAGENTA}------${NC} ===============
+              ${BLUE}------${NC}
+  Appuyez sur ${BLUE}ENTREE${NC} pour redémarrer
+  =========== ${BLUE}------${NC} ===============
 ${NC}"
 read c
 sudo reboot
