@@ -88,7 +88,7 @@ cp $VM_FILES_PATH/icon.png /home/$USER/Documents/update_apps/
 printf "${MAGENTA}\
     * update_apps.sh
 ${NC}"
-cp $VM_FILES_PATH/update_apps.sh /home/$USER/Documents/update_apps/
+cp $VM_FILES_PATH/update_apps.sh /home/$USER/Documents/update_apps/update_apps_new.sh
 
 printf "${MAGENTA}\
     * cc-updater.conf
@@ -106,9 +106,9 @@ echo -e "${GREEN}
 ## REDEMARRAGE ##
 #################${NC}${BLUE}
 
-              ------
-  Appuyez sur ENTREE pour redémarrer
-  =========== ------ ===============
+              ${MAGENTA}------${NC}
+  Appuyez sur ${MAGENTA}ENTREE${NC} pour redémarrer
+  =========== ${MAGENTA}------${NC} ===============
 ${NC}"
 read c
 sudo reboot
