@@ -22,3 +22,6 @@
 
 /public/updates/*
 !/public/updates/.keep
+
+# Ignore application configuration
+/config/secrets.yml

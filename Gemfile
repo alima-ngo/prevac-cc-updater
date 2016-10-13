@@ -40,7 +40,6 @@ gem 'bootstrap_form', '2.5.0'
 gem 'commcare_api', '0.3.3'
 gem "http", '2.0.3'
 gem 'rack-cors', '0.4.0', :require => 'rack/cors'
-gem 'figaro'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -86,7 +86,7 @@ class CommcareUpdate < ApplicationRecord
     imported_cases = []
     not_imported_pids = []
 
-    ccc = CommcareApi::CommcareConnector.new("guinee.respit.prevac@alima-ngo.org", "suffer.dublin.summer")
+    ccc = CommcareApi::CommcareConnector.new(Rails.application.secrets.cc_hq_email, Rails.application.secrets.cc_hq_password)
     r = ccc.get_cases("prevac-1", type: "prevac-participant", server_date_modified_start: CommcareUpdate.last_successful_new_participant_import, limit: 100)
     while !r.nil? do
       j = JSON.parse(r.body)
@@ -121,7 +121,7 @@ class CommcareUpdate < ApplicationRecord
     imported_reminders = []
     not_imported_reminders = []
 
-    ccc = CommcareApi::CommcareConnector.new("guinee.respit.prevac@alima-ngo.org", "suffer.dublin.summer")
+    ccc = CommcareApi::CommcareConnector.new(Rails.application.secrets.cc_hq_email, Rails.application.secrets.cc_hq_password)
     r = ccc.get_cases("prevac-1", type: "rappel", server_date_modified_start: CommcareUpdate.last_successful_new_reminder_import, limit: 100)
     while !r.nil? do
       j = JSON.parse(r.body)

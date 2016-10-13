@@ -212,7 +212,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
   commcare_api (= 0.3.3)
-  figaro
+  figaro (= 1.1.1)
   font-awesome-rails (= 4.6.3.1)
   haml-rails (~> 0.9)
   http (= 2.0.3)
