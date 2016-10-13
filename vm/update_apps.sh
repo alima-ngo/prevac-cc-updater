@@ -13,7 +13,7 @@ MQI_PATH=/var/www/prevac-morpho-query-interface
 VM_FILES_PATH=$CCU_PATH/vm
 SITES_ENABLED_PATH=/etc/apache2/sites-enabled/
 
-echo -e "${GREEN}\
+echo -e "${GREEN}
 ################
 ## CC UPDATER ##
 ################
@@ -26,13 +26,15 @@ echo -e "${BLUE}\
 ${NC}"
 git pull
 
-echo -e "${BLUE}
+echo -e "
+  ${BLUE}
   Installation des mises à jour
   =============================
 ${NC}"
 bundle install --deployment --without development test
 
-echo -e "${BLUE}
+echo -e "
+  ${BLUE}
   Mise à jour de la base de données
   =================================
 ${NC}"
@@ -45,26 +47,28 @@ echo -e "${GREEN}\
 ${NC}"
 cd $MQI_PATH
 
-echo -e "${BLUE}\
+echo -e "
+  ${BLUE}
   Téléchargement des mises à jour
   ===============================
 ${NC}"
 git pull
 
-echo -e "${BLUE}
+echo -e "
+  ${BLUE}
   Installation des mises à jour
   =============================
 ${NC}"
 bundle install --deployment --without development test
 
 
-echo -e "${GREEN}\
+echo -e "${GREEN}
 #######################
 ## MACHINE VIRTUELLE ##
 #######################
 ${NC}"
 
-echo -e "${BLUE}\
+echo -e "${BLUE}
   Copie des fichiers
   ==================${NC}${LIGHT_BLUE}
 
@@ -97,7 +101,7 @@ ${NC}"
 sudo cp $VM_FILES_PATH/mqi.conf $SITES_ENABLED_PATH
 
 
-echo -e ${GREEN}"\
+echo -e "${GREEN}
 #################
 ## REDEMARRAGE ##
 #################${NC}${BLUE}
