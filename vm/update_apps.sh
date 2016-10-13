@@ -86,11 +86,6 @@ ${NC}"
 cp $VM_FILES_PATH/icon.png /home/$USER/Documents/update_apps/
 
 printf "${MAGENTA}\
-    * update_apps.sh
-${NC}"
-cp $VM_FILES_PATH/update_apps.sh /home/$USER/Documents/update_apps/update_apps_new.sh
-
-printf "${MAGENTA}\
     * cc-updater.conf
 ${NC}"
 sudo cp $VM_FILES_PATH/cc-updater.conf $SITES_ENABLED_PATH
