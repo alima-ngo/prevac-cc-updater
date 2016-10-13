@@ -26,13 +26,13 @@ echo -e "${BLUE}\
 ${NC}"
 git pull
 
-echo -e "${BLUE}\
+echo -e "${BLUE}
   Installation des mises à jour
   =============================
 ${NC}"
 bundle install --deployment --without development test
 
-echo -e "${BLUE}\
+echo -e "${BLUE}
   Mise à jour de la base de données
   =================================
 ${NC}"
@@ -51,7 +51,7 @@ echo -e "${BLUE}\
 ${NC}"
 git pull
 
-echo -e "${BLUE}\
+echo -e "${BLUE}
   Installation des mises à jour
   =============================
 ${NC}"
@@ -107,3 +107,4 @@ echo -e ${GREEN}"\
   =========== ------ ===============
 ${NC}"
 read c
+sudo reboot
